@@ -2,7 +2,7 @@
 `useEffect` is a key React tool that lets us run whatever code we want when one of our components is first loaded, or undergoes a state change. We will use it in two main ways today: to load data from a backend, and to filter our search results when the user types in a searchbar.
 
 ## Setting up our backend
-We will be working with a pre-made backend today. It can be found at `https://ga-todos-backend.herokuapp.com`. Here is a summary of its available routes:
+We will be working with a pre-made backend today. It can be found at `https://todos-1011.herokuapp.com/`. Here is a summary of its available routes:
 
 |VERB|ROUTE|EFFECT|
 |----|-----|------|
@@ -12,6 +12,7 @@ We will be working with a pre-made backend today. It can be found at `https://ga
 |`POST`| `/accounts/:key/todos`  | Creates a new todo using the `"description"` from the request body. `"completed"` gets set to false. |
 |`PUT`| `/accounts/:key/todos/:id`  | Updates the specified todo according to the body of the request   |
 |`PUT`| `/accounts/:key/todos/reset`  | Sets all your todos to `completed: false`  |
+|`DELETE`| `/accounts/:key/todos/:id` | Deletes the specified todo |
 
 Use postman to create an account. The key that you get back will effectively become part of your base url for this project. Note that your account comes pre-seeded with some todos.
 
