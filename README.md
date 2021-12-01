@@ -1,7 +1,9 @@
 # useEffect
+
 `useEffect` is a key React tool that lets us run whatever code we want when one of our components is first loaded, or undergoes a state change. We will use it in two main ways today: to load data from a backend, and to filter our search results when the user types in a searchbar.
 
 ## Setting up our backend
+
 We will be working with a pre-made backend today. It can be found at `https://todos-1011.herokuapp.com/`. Here is a summary of its available routes:
 
 |VERB|ROUTE|EFFECT|
@@ -17,6 +19,7 @@ We will be working with a pre-made backend today. It can be found at `https://to
 Use postman to create an account. The key that you get back will effectively become part of your base url for this project. Note that your account comes pre-seeded with some todos.
 
 ## Goal 1: Load backend data
+
 - `yarn add axios`
 - write a function loadTodos to load todos into state
 - useEffect with loadTodos, look at our state in inspector
@@ -26,6 +29,7 @@ Use postman to create an account. The key that you get back will effectively bec
 - use db id as key
 
 ## Goal 2: Filtering our todos
+
 - create a search bar
 - get the search bar wired up as a controlled input in App.js, look at its piece of state in inspector
 - move the search bar into a separate component
@@ -38,6 +42,7 @@ Use postman to create an account. The key that you get back will effectively bec
 - setFilteredTodos to all todos on load
 
 ## Goal 3 (stretch): Marking todos as done
+
 - give each todo a button
 - onClick, make a PUT request
 - upgrade detour: put baseUrl into a constant file
@@ -49,5 +54,6 @@ Use postman to create an account. The key that you get back will effectively bec
 - improvement: use a shouldReloadTodos state in top level
 
 ## Goal 4 (stretch): implement stretch from last night's todos HW
+
 - create a new todo: when the form is submitted, it should POST to the backend, then reload todos
 - sort by done/not done, either in 1 list or 2 lists
