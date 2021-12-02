@@ -2,8 +2,6 @@ INTRO
 
 Think back to unit one, when we were making static frontends. Sometimes you'd need a function to run once the page loaded, and we used a specific event listener for that. useEffect accomplishes the same thing, essentially, but with more degree of control available, because we can set it up to perform a specific bit of logic based off a number of different triggers.
 
-Understanding why it's set up this way is a bit easier if you have at least a passing familiarity with the lifecycle methods that are part of class components. 
-
 SETUP
 
 We're doing npx/npm, fuck yarn
