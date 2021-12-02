@@ -225,7 +225,7 @@ Time for you to flex your new muscles! In breakout rooms, you'll be adding the a
 
 ## Make This App Actually Useful (Stretch) (You Do)
 
-Not much point to a to do list if you can't mark items as complete, or add new tasks to your list.
+Not much point to a to do list if you can't mark items as complete, or add new tasks to your pile.
 
 - Create a form that allows your user to add a todo to the database
 - Add a button to each todo item that, when clicked, updates its completion status to true in the database
