@@ -1,14 +1,19 @@
-const List = ({todos}) => {
+import TodoItem from "./TodoItem"
+
+const List = ({todos, toggleCompletion}) => {
   
   const listItems = () => {
-    return todos.map((todo) => {
+    return todos.map(todo => {
       return (
-        <li key={todo._id}>
-          {todo.description}
-        </li>
+      <TodoItem 
+      key={todo._id} 
+      todo={todo}
+      toggleCompletion={toggleCompletion}
+      />
       )
     })
   }
+
   return (
     <ul>
       {listItems()}
