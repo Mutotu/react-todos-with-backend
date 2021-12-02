@@ -1,8 +1,68 @@
 # useEffect
-`useEffect` is a key React tool that lets us run whatever code we want when one of our components is first loaded, or undergoes a state change. We will use it in two main ways today: to load data from a backend, and to filter our search results when the user types in a searchbar.
 
-## Setting up our backend
-We will be working with a pre-made backend today. It can be found at `https://todos-1011.herokuapp.com/`. Here is a summary of its available routes:
+## Learning Objectives
+
+At the end of this lesson, students will be able to:
+
+- Understand the rough basics of the component lifecycle and its associated methods
+- Explain the use case (what and why) of the `useEffect` hook
+- Use `useEffect` to perform "side effects" in function components
+
+## Intro
+
+Once upon a time, in an internet far, far away, if you wanted to build stateful components in React, you had no choice but to use class components. Function components had no way to set or track state, and so they were strictly presentational - they sat around looking pretty, waiting for class components to do all the heavy lifting, before receiving data as props and putting that on the page.
+
+This obviously worked, or else React wouldn't have lasted, but it quickly became clear that this wasn't exactly what you'd call _ideal_. Most developers find class components more complex to write and grasp than function components, function components are more concise than their class counterparts, and functions are just plain easier for tooling and testing than classes.
+
+### A Brief Overview Of The Component Lifecycle (Or: Thank Your Lucky Stars It's Not Like This Anymore)
+
+We're not going to go into much detail here, because we are fortunate enough to _not_ live once upon a time in an internet far, far away, but it's important to know the history. It's good to be able to talk about it in interviews, and to understand just how much better we have it now.
+
+We already know that changing state in a component triggers a re-render, and that we can, in turn, trigger those state changes when our users interact with our UI. But sometimes we want to execute logic without needing to wait for a button to be clicked. Can you imagine needing to click a button before Facebook grabs your information from its server and built out your feed? Of course not. That would be a terrible user experience.
+
+Class components provide several lifecycle methods that you can use to control your application based on the state of the UI. They're a prepackaged part of every class component that are called at specific points in the rendering process. You can use them to perform actions based on what's happening on the DOM.
+
+There are three types of component lifecycle methods:
+
+- **Mounting** - occurs when the component is initially mounted, in this order:
+  
+  - [`constructor`](https://reactjs.org/docs/react-component.html#constructor) 
+  - [`getDerivedStateFromProps`](https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops)
+  - [`render`](https://reactjs.org/docs/react-component.html#render)
+  - [`componentDidMount`](https://reactjs.org/docs/react-component.html#componentdidmount)
+
+- **Updating** - occurs when a component is updated, in this order:
+
+  - [`getDerivedStateFromProps`](https://reactjs.org/docs/react-component.html#static-getderivedstatefromprops)
+  - [`shouldComponentUpdate`](https://reactjs.org/docs/react-component.html#shouldcomponentupdate)
+  - [`render`](https://reactjs.org/docs/react-component.html#render)
+  - [`getSnapshotBeforeUpdate`](https://reactjs.org/docs/react-component.html#getsnapshotbeforeupdate)
+  - [`componentDidUpdate`](https://reactjs.org/docs/react-component.html#componentdidupdate)
+
+- **Unmounting** - occurs when the component is removed from DOM:
+
+  - [`componentWillUnmount`](https://reactjs.org/docs/react-component.html#componentwillunmount)
+
+If that seems like a lot, that's because it is! And it's not even all of them!! Check out an interactive flowchart that includes some less common lifecycle methods [here](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/) if you feel like being stressed out.
+
+### `useEffect` And Other Hooks
+
+Starting with React version 16.8, the team added [hooks](https://reactjs.org/docs/hooks-intro.html) to the library, and there was much rejoicing. Instead of having a small village's worth of methods taking up computing power in your stateful components regardless of whether or not you even use them, the introduction of hooks allows us to have precise control over all the logic in our components, and when that logic executes.
+
+It's better.
+
+You're already familiar with `useState`, which does a lot of work to make function components just as, well, _functional_ as class components, but it doesn't quite get us all the way there. There are a handful of other hooks built in to React nowadays, but today we're just going to be focusing on `useEffect` - a heavy hitter that can be set up to take the place of _three_ different lifecycle methods, firing when the component mounts, when it undergoes a state change, and just before it unmounts.
+
+## Set Up
+
+- Fork and clone this repo
+- Open the included boilerplate React application in VS Code
+- Install dependencies
+- Start your server
+
+## Meet The Backend
+
+You thought you were done with todos? You're never done with todos. But this time we'll be working with a pre-made backend, located at `https://todos-1011.herokuapp.com/`. Here is a summary of its available routes:
 
 |VERB|ROUTE|EFFECT|
 |----|-----|------|
@@ -16,38 +76,8 @@ We will be working with a pre-made backend today. It can be found at `https://to
 
 Use postman to create an account. The key that you get back will effectively become part of your base url for this project. Note that your account comes pre-seeded with some todos.
 
-## Goal 1: Load backend data
-- `yarn add axios`
-- write a function loadTodos to load todos into state
-- useEffect with loadTodos, look at our state in inspector
-- put a log into loadTodos, see that it is looping
-- put [] into useEffect to stop the loop
-- pass our todos state into a TodoList component that displays them
-- use db id as key
+## Sprint 1 (We Do)
 
-## Goal 2: Filtering our todos
-- create a search bar
-- get the search bar wired up as a controlled input in App.js, look at its piece of state in inspector
-- move the search bar into a separate component
-- need new piece of state for filtered todos, this will get passed into list
-- make a filterTodos function, we will wire it up to the search bar next
-- wire filterTodos up to the search bar with useEffect
-- this useEffect must depend on the searchTerm
-- note that the filteredTodos state changes in inspector
-- pass filteredTodos (instead of todos) into TodoList
-- setFilteredTodos to all todos on load
+## Sprint 2 (You Do)
 
-## Goal 3 (stretch): Marking todos as done
-- give each todo a button
-- onClick, make a PUT request
-- upgrade detour: put baseUrl into a constant file
-- after button is clicked, need to reload todos in top-level component
-- define a function in top level component that handles this, and pass it into TodoList as a prop
-- it should be really similar to the initial load, can we reuse a function here?
-- call the reloadTodos function after the put is finished
-- might want to order by id to avoid shuffling the todos
-- improvement: use a shouldReloadTodos state in top level
-
-## Goal 4 (stretch): implement stretch from last night's todos HW
-- create a new todo: when the form is submitted, it should POST to the backend, then reload todos
-- sort by done/not done, either in 1 list or 2 lists
+<!-- Maybe add a hungry for more, with an overview of other built-in hooks and maybe making custom hooks? -->
