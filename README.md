@@ -78,6 +78,134 @@ Use postman to create an account. The key that you get back will effectively bec
 
 ## Sprint 1 (We Do)
 
+Now that we've got our accounts and our todos and the very vaguest idea of what `useEffect` does, let's mash these together. Go ahead and gut the boilerplate code in `App.js` and `App.css`, and then let's get started with writing a function that will handle our API call and just log the response to the console.
+
+```JSX
+import './App.css';
+import axios from 'axios';
+
+const baseUrl = `https://todos-1011.herokuapp.com/accounts/{YOUR_KEY_HERE}/todos`
+
+function App() {
+
+  const loadTodos = async () => {
+    try {
+      const response = await axios.get(baseUrl);
+      console.log(response);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <div className="App">
+      <h1>To Do List</h1>
+      <button onClick={loadTodos}>Load Todos</button>
+    </div>
+  )
+}
+
+export default App;
+```
+
+Okay, that's great and all, but we've already gone over the fact that using buttons to make API calls is less than ideal, to put it mildly. If only there was another way! If only that other way was the whole point of this lesson!
+
+Let's make some changes:
+
+```JSX
+import './App.css';
+import { useEffect } from 'react';
+import axios from 'axios';
+
+const baseUrl = `https://todos-1011.herokuapp.com/accounts/{YOUR_KEY_HERE}/todos`
+
+function App() {
+
+  const loadTodos = async () => {
+    try {
+      const response = await axios.get(baseUrl);
+      console.log(response);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    loadTodos();
+  })
+
+  return (
+    <div className="App">
+      <h1>To Do List</h1>
+    </div>
+  )
+}
+
+export default App;
+```
+
+`useEffect` takes a callback function as its first and only _required_ argument. This can be either named or anonymous, but React gets fussy about async functions in `useEffect` - which is why we're calling our named asynchronous `loadTodos` function inside the hook's anonymous callback.
+
+Once you've saved your component and open the console in your browser, you should see your array of todos printed to the console without requiring the hard, hard work of clicking a button.
+
+From here it's a simple matter of shoving that data into state and moving on with our lives as usual, right?
+
+Right?
+
+No better way to find out than to try it!
+
+```JSX
+import './App.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+const baseUrl = `https://todos-1011.herokuapp.com/accounts/{YOUR_KEY_HERE}/todos`
+
+function App() {
+  const [allTodos, setAllTodo] = useState([]);
+
+  const loadTodos = async () => {
+    try {
+      const response = await axios.get(baseUrl);
+      console.log("Saving todos to state");
+      setAllTodos(response.data.todos);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    loadTodos();
+  })
+
+  return (
+    <div className="App">
+      <h1>To Do List</h1>
+    </div>
+  )
+}
+
+export default App;
+```
+
+Oh god. Oh no. Somebody make it stop. Why won't it stop. What's happening.
+
+**By default, the callback function is going to be invoked after every render of the component.** And components rerender whenever they detect a state change. So the component mounts, renders, then makes the API call, sets state, re-renders, makes the API call, sets state, re-renders, makes the API call, over and over and over again, and we thank our lucky stars that the API we're working with is free, or else this could get pricey.
+
+So what do we do? This seems like a _major_ design flaw.
+
+Fortunately, `useEffect` can accept a second argument, called a dependency array. It holds a list of dependencies - variables and/or object properties that causes the effect to run only if at least one of the dependencies change their value.
+
+```JSX
+useEffect(() => {
+    loadTodos();
+  }, [])
+```
+
+Providing an empty array, like you see here, will result in the effect only running after the initial render. We can safely set state within our effect without getting stuck in an infinite loop!
+
+Now let's go ahead and put the information in state on the page. This will be very similar to your deliverable last night.
+
 ## Sprint 2 (You Do)
 
 <!-- Maybe add a hungry for more, with an overview of other built-in hooks and maybe making custom hooks? -->
